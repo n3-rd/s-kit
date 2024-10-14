@@ -1,10 +1,22 @@
 # S-KIT CLI TOOL
 
-Version: 1.0.0
+Version: 1.0.1
 
 ## Description
 
 S-kit is a command-line interface (CLI) tool designed to streamline the process of creating components, routes, layouts, error pages, server routes, and stores for SvelteKit projects.
+
+## Installation
+
+```bash
+npm install -g @n3-rd/s-kit
+```
+
+## Usage
+
+```bash
+s-kit <command> <name> [options]
+```
 
 ## Main Features
 
