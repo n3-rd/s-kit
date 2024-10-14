@@ -1,12 +1,13 @@
 {
   "name": "@n3-rd/s-kit",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "bin/index.js",
   "bin": {
     "s-kit": "./bin/index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bin/index.js"
   },
   "keywords": [
     "sveltekit",
@@ -22,7 +23,15 @@
   ],
   "author": "n3-rd",
   "license": "ISC",
-  "description": "",
+  "description": "A CLI tool for SvelteKit development",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/n3-rd/s-kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/n3-rd/s-kit/issues"
+  },
+  "homepage": "https://github.com/n3-rd/s-kit#readme",
   "dependencies": {
     "commander": "^12.1.0"
   }
