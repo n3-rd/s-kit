@@ -8,7 +8,7 @@ const program = new Command();
 
 program
   .name('s-kit')
-  .description('CLI to add SvelteKit routes and components')
+  .description('CLI to add SvelteKit routes, components, and other file types')
   .version('1.0.0');
 
 program.command('add')
@@ -30,9 +30,19 @@ program.command('route')
   .option('--no-server', 'Skip creating server file')
   .description('Add a new route')
   .action((route, options) => {
-    const routePath = path.join(process.cwd(), 'src', 'routes', route);
+    // Parse the route to handle groups
+    const routeParts = route.split('/');
+    const groupName = routeParts[0].startsWith('(') ? routeParts.shift() : null;
+    const routeName = routeParts.join('/');
+
+    let routePath = path.join(process.cwd(), 'src', 'routes');
+    if (groupName) {
+      routePath = path.join(routePath, groupName);
+    }
+    routePath = path.join(routePath, routeName);
+
     const pagePath = path.join(routePath, '+page.svelte');
-    const pageContent = `<h1>${route} page</h1>`;
+    const pageContent = `<h1>${routeName} page</h1>`;
     
     fs.mkdirSync(routePath, { recursive: true });
     fs.writeFileSync(pagePath, pageContent);
@@ -48,6 +58,67 @@ program.command('route')
     }
     
     console.log(`Route ${route} created successfully.`);
+  });
+
+program.command('layout')
+  .argument('<name>', 'layout name')
+  .description('Add a new layout')
+  .action((name) => {
+    const layoutPath = path.join(process.cwd(), 'src', 'routes', name, '+layout.svelte');
+    const layoutContent = `
+<script>
+  import '../app.css';
+</script>
+
+<slot />
+    `.trim();
+    
+    fs.mkdirSync(path.dirname(layoutPath), { recursive: true });
+    fs.writeFileSync(layoutPath, layoutContent);
+    
+    console.log(`Layout ${name} created successfully.`);
+  });
+
+program.command('error')
+  .argument('<name>', 'error page name')
+  .description('Add a new error page')
+  .action((name) => {
+    const errorPath = path.join(process.cwd(), 'src', 'routes', name, '+error.svelte');
+    const errorContent = `
+<script>
+  import { page } from '$app/stores';
+</script>
+
+<h1>{$page.status}: {$page.error.message}</h1>
+    `.trim();
+    
+    fs.mkdirSync(path.dirname(errorPath), { recursive: true });
+    fs.writeFileSync(errorPath, errorContent);
+    
+    console.log(`Error page ${name} created successfully.`);
+  });
+
+program.command('server')
+  .argument('<name>', 'server route name')
+  .description('Add a new server route')
+  .action((name) => {
+    const serverPath = path.join(process.cwd(), 'src', 'routes', name, '+server.ts');
+    const serverContent = `
+import type { RequestHandler } from './$types';
+import { json } from '@sveltejs/kit';
+
+export const GET: RequestHandler = async ({ url }) => {
+  // Add your server-side logic here
+  return json({
+    message: 'Hello from the server!'
+  });
+};
+    `.trim();
+    
+    fs.mkdirSync(path.dirname(serverPath), { recursive: true });
+    fs.writeFileSync(serverPath, serverContent);
+    
+    console.log(`Server route ${name} created successfully.`);
   });
 
 program.parse(process.argv);
