@@ -8,8 +8,19 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "sveltekit",
+    "cli",
+    "svelte",
+    "sveltekit-cli",
+    "sveltekit-component-generator",
+    "sveltekit-route-generator",
+    "sveltekit-layout-generator",
+    "sveltekit-error-page-generator",
+    "sveltekit-server-route-generator",
+    "sveltekit-store-generator"
+  ],
+  "author": "n3-rd",
   "license": "ISC",
   "description": "",
   "dependencies": {
