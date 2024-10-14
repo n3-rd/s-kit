@@ -1,6 +1,6 @@
 {
   "name": "@n3-rd/s-kit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "bin/index.js",
   "bin": {
     "s-kit": "./bin/index.js"
